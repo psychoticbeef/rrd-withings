@@ -1,0 +1,14 @@
+rrdtool graph image.png \
+–width 500 –height 200 \
+–end now –start now-7d \
+–vertical-label “data” \
+DEF:data1=some.rrd:data:AVERAGE:start=now-8d:end=now+1d \
+DEF:data2=some.rrd:data:AVERAGE:start=now-2w:end=now+3d \
+CDEF:trend_data=data1,21600,TREND \
+LINE1:trend_data#000000:”smoothed out data” \
+VDEF:D=data2,LSLSLOPE \
+VDEF:H=data2,LSLINT \
+CDEF:projection=data2,POP,D,COUNT,*,H,+ \
+LINE1:projection#BB2030:”2 week projection”
+
+
